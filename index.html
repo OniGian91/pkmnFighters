@@ -1,0 +1,224 @@
+<head>
+    <link rel="stylesheet" href="style/styles.css">
+
+     <!-- Press+Start+2P font import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head> 
+<body> 
+<!-- Red container div (Main container) -->
+<div style="
+    position: relative; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    height: 100%;
+    width: 100%;
+">
+    <!-- Canvas Container (to contain both the canvas and HUD inside it) -->
+    <div style="position: relative; display: inline-block;">
+        <!-- HUD (Health bars + Timer) -->
+        <div style="
+            position: absolute; 
+            top: 0; 
+            left: 0;
+            right: 0;
+            display: flex; 
+            width: 100%; 
+            align-items: center; 
+            padding: 20px;
+            z-index: 10;
+        ">
+         <!-- Player image -->
+         <div style="
+         position: relative; 
+         width: 15%;
+         height: 70px;
+         display: flex; 
+         justify-content: flex-end; 
+         border: 4px solid black;
+     ">
+<div id="playerProfilePic" style="position: absolute; background: white; top: 0; right: 0; bottom: 0; width: 100%; background-image: url('./media/characters/Charizard/portrait.png'); background-size: cover; background-position: center;"></div>
+</div>
+            <!-- Player health -->
+            <div style="
+                position: relative; 
+                width: 100%; 
+                display: flex; 
+                justify-content: flex-end; 
+                border: 4px solid white;
+            ">
+                <div style="background-color: red; height: 30px; width: 100%;"></div>
+                <div id="playerHealth" style="position: absolute; background: green; top: 0; right: 0; bottom: 0; width: 100%;"></div>
+            </div>
+
+            <!-- Timer -->
+            <div id="timer" style="
+                background-color: black;
+                height: 50px; 
+                width: 100px;
+                flex-shrink: 0; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center;
+                color: white;
+                border: 4px solid white;
+                border-radius: 10px;
+            "></div>
+
+            <!-- Enemy health -->
+            <div style="
+                position: relative;  
+                width: 100%; 
+                border: 4px solid white;
+            ">
+                <div style="background-color: red; height: 30px;"></div>
+                <div id="enemyHealth" style="position: absolute; background: green; top: 0; right: 0; bottom: 0; left: 0;"></div>
+            </div>
+             <!-- Enemy image -->
+             <div style="
+             position: relative;  
+             width: 15%;
+             height: 70px;
+             border: 4px solid black;
+         ">
+             <div id="enemyProfilePic" style="position: absolute; background: green; top: 0; right: 0; bottom: 0; left: 0;"></div>
+
+             <div id="enemyProfilePic" style="position: absolute; background: white; top: 0; right: 0; bottom: 0; left: 0; background-image: url('./media/characters/Blastoise/portrait.png'); background-size: cover; background-position: center;"></div>
+
+         </div>
+        </div>
+
+       
+
+<!-- Game Over text -->
+<div id="gameOver" style="
+    position:absolute; 
+    color:red; 
+    display:none; 
+    align-items: center;
+    justify-content: center; 
+    top:0; 
+    right:0; 
+    bottom:0; 
+    left:0;
+    bottom: 14%;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+">GAME OVER</div>
+
+<!-- Match Result text -->
+<div id="matchResult" style="
+    position:absolute; 
+    color:white; 
+    display:none; 
+    align-items: center;
+    justify-content: center; 
+    top:0; 
+    right:0; 
+    bottom:0; 
+    left:0;
+    bottom: 0%;
+    font-size: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+"></div>
+
+<!-- Start Timer text -->
+<div id="startTimer" style="
+    position:absolute; 
+    color:red; 
+    display:flex; 
+    align-items: center;
+    justify-content: center; 
+    top:0; 
+    right:0; 
+    bottom:0; 
+    left:0;
+    bottom: 14%;
+    font-size: 100px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+"></div>
+
+<!-- Centered Canvas -->
+<!-- Canvas (Game area) -->
+ <canvas style="display: block; border: 10px solid white;"></canvas>
+
+
+</div>
+<!-- Button Container (Centers the button) -->
+<div style="
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 5px; /* Space between canvas and button */
+    width: 100%;
+">
+<div class="buttonsContainer">
+    <button id="playAgain" class="controlsBtn">Play Again</button>
+    <button id="playButton" class="controlsBtn">Turn on music</button>
+    <audio id="myAudio">
+        <source src=".\media\music\battle.mp3" type="audio/mpeg">
+    </audio>
+    <div id="controlsContainer">
+        <button class="controlsBtn">Show Controls</button>
+        <div id="controlsPanel">
+            <strong>Game Controls</strong>
+            <br><br>
+          
+            <div class="character-controls">
+              <strong>🟥 Charizard</strong>
+              <ul>
+                <li><kbd>W</kbd> – Jump</li>
+                <li><kbd>A</kbd> / <kbd>D</kbd> – Move</li>
+                <li><kbd>Space</kbd> – Attack</li>
+              </ul>
+            </div>
+          
+            <br>
+          
+            <div class="character-controls">
+              <strong>🟦 Blastoise</strong>
+              <ul>
+                <li><kbd>↑</kbd> – Jump</li>
+                <li><kbd>←</kbd> / <kbd>→</kbd> – Move</li>
+                <li><kbd>↓</kbd> – Attack</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <script>
+        const button = document.getElementById('controlsBtn');
+        const panel = document.getElementById('controlsPanel');
+    
+        button.addEventListener('click', () => {
+          panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        });
+    
+        document.addEventListener('click', (e) => {
+          if (!document.getElementById('controlsContainer').contains(e.target)) {
+            panel.style.display = 'none';
+          }
+        });
+      </script>
+    
+
+    
+
+</div>
+</div>
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.6/gsap.min.js" integrity="sha512-3jR54KUJhy12PapCSrnf9gBMPxBBI5mL1TFVSI6rerJ1GSYqu1CDdVzpEJxW1hzMxIker92DbK8MU7bt3kStMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="js/classes.js"></script>
+<script src="js/controls.js"></script>
+<script src="js/utils.js"></script>
+<script src="index.js"></script>
+
+</body>
